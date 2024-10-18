@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.Console;
+import java.lang.reflect.Array;
+
 public class TodosTest {
 
     @Test
@@ -114,7 +117,7 @@ public class TodosTest {
     }
 
     @Test
-    public void shouldSearchQuueryInTodos() {
+    public void shouldSearchQueryInTodos1() {
         SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
         String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
         Epic epic = new Epic(55, subtasks);
@@ -133,6 +136,51 @@ public class TodosTest {
         Task[] expected = {meeting};
         Task[] actual = todos.search("НетоБанк");
         Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchQueryInTodos0() {
+        SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+        String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
+        Epic epic = new Epic(55, subtasks);
+        Meeting meeting = new Meeting(
+                555,
+                "Выкатка 3й версии приложения",
+                "Приложение НетоБанка",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+        todos.add(meeting);
+        todos.add(epic);
+        todos.add(simpleTask);
+
+        Task[] expected = {};
+        Task[] actual = todos.search("Мама");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchQueryInTodos2() {
+        SimpleTask simpleTask = new SimpleTask(5, "Купить Одежда");
+        String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
+        Epic epic = new Epic(55, subtasks);
+        Meeting meeting = new Meeting(
+                555,
+                "Выкатка 3й версии приложения",
+                "Одежда",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+        todos.add(meeting);
+        todos.add(epic);
+        todos.add(simpleTask);
+
+        Task[] expected = {meeting, simpleTask};
+        Task[] actual = todos.search("Одежда");
+        Assertions.assertArrayEquals(expected, actual);
+
     }
 
 }
